@@ -16,6 +16,7 @@
 {%   endif %}
 {% endmacro %}
 {% macro body_option(key,override) %}
+{%   set value = undefined %}
 {%   if override is defined %}
 {%     set value = override %}
 {%   elif sshd[key] is defined %}
@@ -90,6 +91,7 @@ Match {{ match["Condition"] }}
 {{ body_option("ClientAliveCountMax",sshd_ClientAliveCountMax) -}}
 {{ body_option("ClientAliveInterval",sshd_ClientAliveInterval) -}}
 {{ body_option("Compression",sshd_Compression) -}}
+{{ body_option("DebianBanner",sshd_DebianBanner) -}}
 {{ body_option("DenyGroups",sshd_DenyGroups) -}}
 {{ body_option("DenyUsers",sshd_DenyUsers) -}}
 {{ body_option("ForceCommand",sshd_ForceCommand) -}}

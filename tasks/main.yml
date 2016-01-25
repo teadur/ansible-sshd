@@ -13,6 +13,8 @@
 - name: OS is supported
   assert:
     that: sshd_os_supported == True
+  tags:
+    - sshd
 
 - name: Installed
   action: >
@@ -23,6 +25,15 @@
   tags:
     - sshd
 
+- name: Run directory
+  file:
+    path: /var/run/sshd
+    state: directory
+    mode: 0755
+  when: sshd_manage_var_run
+  tags:
+    - sshd
+
 - name: Configuration
   template:
     src: sshd_config.j2
@@ -30,7 +41,8 @@
     owner: "{{ sshd_config_owner }}"
     group: "{{ sshd_config_group }}"
     mode: "{{ sshd_config_mode }}"
-  notify: check_and_reload_sshd
+    validate: "{{ sshd_binary }} -t -f %s"
+  notify: reload_sshd
   tags:
     - sshd
 
@@ -39,9 +51,12 @@
     name: "{{ sshd_service }}"
     enabled: true
     state: running
+  when: sshd_manage_service
   tags:
     - sshd
 
 - name: Register that this role has run
   set_fact: sshd_has_run=true
   when: sshd_has_run is not defined
+  tags:
+    - sshd

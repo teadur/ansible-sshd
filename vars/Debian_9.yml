@@ -2,6 +2,7 @@
 __sshd_service: ssh
 __sshd_packages:
   - openssh-server
+  - openssh-sftp-server
 __sshd_config_mode: "0644"
 __sshd_defaults:
   Port: 22
@@ -10,18 +11,15 @@ __sshd_defaults:
     - /etc/ssh/ssh_host_rsa_key
     - /etc/ssh/ssh_host_dsa_key
     - /etc/ssh/ssh_host_ecdsa_key
+    - /etc/ssh/ssh_host_ed25519_key
   UsePrivilegeSeparation: yes
-  KeyRegenerationInterval: 3600
-  ServerKeyBits: 768
   SyslogFacility: AUTH
   LogLevel: INFO
   LoginGraceTime: 120
-  PermitRootLogin: yes
+  PermitRootLogin: without-password
   StrictModes: yes
-  RSAAuthentication: yes
   PubkeyAuthentication: yes
   IgnoreRhosts: yes
-  RhostsRSAAuthentication: no
   HostbasedAuthentication: no
   PermitEmptyPasswords: no
   ChallengeResponseAuthentication: no

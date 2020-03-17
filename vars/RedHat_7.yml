@@ -1,9 +1,9 @@
 ---
-sshd_packages:
+__sshd_packages:
   - openssh
   - openssh-server
-sshd_sftp_server: /usr/libexec/openssh/sftp-server
-sshd_defaults:
+__sshd_sftp_server: /usr/libexec/openssh/sftp-server
+__sshd_defaults:
   HostKey:
     - /etc/ssh/ssh_host_rsa_key
     - /etc/ssh/ssh_host_ecdsa_key
@@ -14,6 +14,8 @@ sshd_defaults:
   ChallengeResponseAuthentication: no
   GSSAPIAuthentication: yes
   GSSAPICleanupCredentials: yes
+# Note that UsePAM: no is not supported under RHEL/CentOS. See
+# https://github.com/willshersystems/ansible-sshd/pull/51#issuecomment-287333218
   UsePAM: yes
   X11Forwarding: yes
   UsePrivilegeSeparation: sandbox
@@ -23,4 +25,4 @@ sshd_defaults:
     - LC_IDENTIFICATION LC_ALL LANGUAGE
     - XMODIFIERS
   Subsystem: "sftp {{ sshd_sftp_server }}"
-sshd_os_supported: yes
+__sshd_os_supported: yes
